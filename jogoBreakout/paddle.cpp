@@ -28,7 +28,9 @@ void Paddle::move() {
     int x = rect.x() + dx;
     int y = rect.top();
 
-    rect.moveTo(x, y);
+    if(x<RIGHT_EDGE && x>0){
+        rect.moveTo(x, y);
+    }
 }
 
 void Paddle::resetState() {
