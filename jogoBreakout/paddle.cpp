@@ -4,7 +4,7 @@
 Paddle::Paddle() {
 
   dx = 0;
-  image.load("/home/lorena/BreakoutGame/jogoBreakout/paddle.png");
+  image.load("../jogoBreakout/paddle.png");
 
   int inputWidth = 80;
   int inputHeight = 15;

@@ -2,7 +2,7 @@
 #include "brick.h"
 
 Brick::Brick(int x, int y) {
-  image.load("/home/lorena/BreakoutGame/jogoBreakout/brickie.png");
+  image.load("../jogoBreakout/brickie.png");
 
   int inputWidth = 40;
   int inputHeight = 8;

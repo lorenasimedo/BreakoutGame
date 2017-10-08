@@ -6,7 +6,7 @@ Ball::Ball() {
   xdir = 1;
   ydir = -1;
 
-  image.load("/home/lorena/BreakoutGame/jogoBreakout/ball.png");
+  image.load("../jogoBreakout/ball.png");
 
   int inputWidth = 15;
   int inputHeight = 15;
