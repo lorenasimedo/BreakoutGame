@@ -9,6 +9,7 @@
 #include "brick.h"
 #include "paddle.h"
 
+
 class Breakout : public QWidget {
 
   public:

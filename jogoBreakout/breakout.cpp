@@ -4,7 +4,7 @@
 
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
-
+  setFixedSize(500, 400);
   x = 0;
   gameOver = false;
   gameWon = false;
