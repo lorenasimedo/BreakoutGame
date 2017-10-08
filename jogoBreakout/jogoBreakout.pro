@@ -25,10 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        breakout.cpp
+        breakout.cpp \
+    paddle.cpp \
+    brick.cpp \
+    ball.cpp
 
 HEADERS += \
-        breakout.h
+        breakout.h \
+    paddle.h \
+    brick.h \
+    ball.h
 
 FORMS += \
         breakout.ui

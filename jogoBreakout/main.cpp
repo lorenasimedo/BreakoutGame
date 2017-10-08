@@ -1,11 +1,15 @@
-#include "breakout.h"
 #include <QApplication>
+#include "breakout.h"
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    breakout w;
-    w.show();
+int main(int argc, char *argv[]) {
 
-    return a.exec();
+  QApplication app(argc, argv);
+
+  Breakout window;
+
+  window.resize(300, 400);
+  window.setWindowTitle("Breakout");
+  window.show();
+
+  return app.exec();
 }
