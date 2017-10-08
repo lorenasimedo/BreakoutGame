@@ -8,6 +8,10 @@ Ball::Ball() {
 
   image.load("/home/lorena/BreakoutGame/jogoBreakout/ball.png");
 
+  int inputWidth = 15;
+  int inputHeight = 15;
+  image = image.scaled(inputWidth, inputHeight,Qt::IgnoreAspectRatio);
+
   rect = image.rect();
   resetState();
 }

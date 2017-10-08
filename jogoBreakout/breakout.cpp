@@ -13,6 +13,7 @@ Breakout::Breakout(QWidget *parent)
   ball = new Ball();
   paddle = new Paddle();
 
+
   int k = 0;
 
   for (int i=0; i<5; i++) {
@@ -41,11 +42,11 @@ void Breakout::paintEvent(QPaintEvent *e) {
 
   if (gameOver) {
 
-    finishGame(&painter, "Game lost");
+    finishGame(&painter, "Você perdeu!");
 
   } else if(gameWon) {
 
-    finishGame(&painter, "Victory");
+    finishGame(&painter, "Vitória!");
   }
   else {
 

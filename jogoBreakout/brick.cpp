@@ -3,6 +3,11 @@
 
 Brick::Brick(int x, int y) {
   image.load("/home/lorena/BreakoutGame/jogoBreakout/brickie.png");
+
+  int inputWidth = 40;
+  int inputHeight = 8;
+  image = image.scaled(inputWidth, inputHeight,Qt::IgnoreAspectRatio);
+
   destroyed = false;
   rect = image.rect();
   rect.translate(x, y);
