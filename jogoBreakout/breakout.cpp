@@ -143,7 +143,7 @@ void Breakout::keyPressEvent(QKeyEvent *e) {
         paddle->setDx(dx);
         break;
 
-    case Qt::Key_P:
+    case Qt::LeftButton:
 
         pauseGame();
         break;
