@@ -9,6 +9,7 @@ Breakout::Breakout(QWidget *parent)
   x = 0;
   gameOver = false;
   gameWon = false;
+  perdeuVida = false;
   paused = false;
   gameStarted = false;
   ball = new Ball();
@@ -51,13 +52,17 @@ void Breakout::paintEvent(QPaintEvent *e) {
 
   if (gameOver) {
     reiniciarBolas();
+    perdeuVida = false;
     finishGame(&painter, "Você perdeu!");
 
   } else if(gameWon) {
     reiniciarBolas();
     finishGame(&painter, "Vitória!");
-  }
-  else {
+  } else if(perdeuVida){
+    finishGame(&painter, "Perdeu uma vida!");
+    perdeuVida = false;
+  }  else {
+    //finishGame(&painter, "Você perdeu uma vida!");
     drawObjects(&painter);
   }
 }
@@ -212,6 +217,7 @@ void Breakout::checkCollision() {
 
   if (ball->getRect().bottom() > BOTTOM_EDGE) {
     numeroBolas--;
+    perdeuVida = true;
     stopGame();
   }
 

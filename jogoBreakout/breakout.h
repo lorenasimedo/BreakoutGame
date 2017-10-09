@@ -42,6 +42,7 @@ class Breakout : public QWidget {
     Brick *bricks[N_OF_BRICKS];
     bool gameOver;
     bool gameWon;
+    bool perdeuVida;
     bool gameStarted;
     bool paused;
     int numeroTijolos;
