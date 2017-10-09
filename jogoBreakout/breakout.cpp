@@ -14,6 +14,7 @@ Breakout::Breakout(QWidget *parent)
   ball = new Ball();
   paddle = new Paddle();
   numeroTijolos = N_OF_BRICKS;
+  numeroBolas = 5;
 
 
   int k = 0;
@@ -36,6 +37,12 @@ Breakout::~Breakout() {
  }
 }
 
+void Breakout::reiniciarBolas(){
+    numeroBolas = 5;
+}
+
+
+
 void Breakout::paintEvent(QPaintEvent *e) {
 
   Q_UNUSED(e);
@@ -43,11 +50,11 @@ void Breakout::paintEvent(QPaintEvent *e) {
   QPainter painter(this);
 
   if (gameOver) {
-    numeroTijolos = N_OF_BRICKS;
+    reiniciarBolas();
     finishGame(&painter, "Você perdeu!");
 
   } else if(gameWon) {
-    numeroTijolos = N_OF_BRICKS;
+    reiniciarBolas();
     finishGame(&painter, "Vitória!");
   }
   else {
@@ -160,7 +167,7 @@ void Breakout::startGame() {
     for (int i=0; i<N_OF_BRICKS; i++) {
       bricks[i]->setDestroyed(false);
     }
-
+    numeroTijolos = N_OF_BRICKS;
     gameOver = false;
     gameWon = false;
     gameStarted = true;
@@ -184,8 +191,14 @@ void Breakout::pauseGame() {
 void Breakout::stopGame() {
 
   killTimer(timerId);
-  gameOver = true;
-  gameStarted = false;
+  if(numeroBolas==0){
+    gameOver = true;
+    gameStarted = false;
+  }else{
+    gameOver = false;
+    gameStarted = false;
+
+  }
 }
 
 void Breakout::victory() {
@@ -198,6 +211,7 @@ void Breakout::victory() {
 void Breakout::checkCollision() {
 
   if (ball->getRect().bottom() > BOTTOM_EDGE) {
+    numeroBolas--;
     stopGame();
   }
 
@@ -281,7 +295,8 @@ void Breakout::checkCollision() {
         }
         numeroTijolos--;
         bricks[i]->setDestroyed(true);
-        qDebug()<<numeroTijolos;
+        qDebug()<<"Numero de Tijolos:"<<numeroTijolos;
+        qDebug()<<"Numero de Bolas:"<<numeroBolas;
       }
     }
   }

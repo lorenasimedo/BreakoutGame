@@ -29,6 +29,7 @@ class Breakout : public QWidget {
     void stopGame();
     void victory();
     void checkCollision();
+    void reiniciarBolas();
 
   private:
     int x;
@@ -44,6 +45,7 @@ class Breakout : public QWidget {
     bool gameStarted;
     bool paused;
     int numeroTijolos;
+    int numeroBolas;
 };
 
 #endif // BREAKOUT_H
