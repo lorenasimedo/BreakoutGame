@@ -1,6 +1,7 @@
 #include <QPainter>
 #include <QApplication>
 #include "breakout.h"
+#include <QDebug>
 
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
@@ -12,6 +13,7 @@ Breakout::Breakout(QWidget *parent)
   gameStarted = false;
   ball = new Ball();
   paddle = new Paddle();
+  numeroTijolos = N_OF_BRICKS;
 
 
   int k = 0;
@@ -41,15 +43,14 @@ void Breakout::paintEvent(QPaintEvent *e) {
   QPainter painter(this);
 
   if (gameOver) {
-
+    numeroTijolos = N_OF_BRICKS;
     finishGame(&painter, "Você perdeu!");
 
   } else if(gameWon) {
-
+    numeroTijolos = N_OF_BRICKS;
     finishGame(&painter, "Vitória!");
   }
   else {
-
     drawObjects(&painter);
   }
 }
@@ -241,7 +242,7 @@ void Breakout::checkCollision() {
        ball->setYDir(-1*ball->getYDir());
     }
 
-    if (ballLPos > fourth) {
+    if (ballLPos >= fourth) {
       ball->setXDir(1);
       ball->setYDir(-1);
     }
@@ -255,6 +256,7 @@ void Breakout::checkCollision() {
       int ballHeight = ball->getRect().height();
       int ballWidth = ball->getRect().width();
       int ballTop = ball->getRect().top();
+
 
       QPoint pointRight(ballLeft + ballWidth + 1, ballTop);
       QPoint pointLeft(ballLeft - 1, ballTop);
@@ -277,8 +279,9 @@ void Breakout::checkCollision() {
         else if(bricks[i]->getRect().contains(pointBottom)) {
            ball->setYDir(-1);
         }
-
+        numeroTijolos--;
         bricks[i]->setDestroyed(true);
+        qDebug()<<numeroTijolos;
       }
     }
   }
