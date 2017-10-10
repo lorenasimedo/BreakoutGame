@@ -8,6 +8,7 @@ Breakout::Breakout(QWidget *parent)
   setFixedSize(500, 400);
   x = 0;
   gameOver = false;
+  telaInformativa = false;
   gameWon = false;
   perdeuVida = false;
   paused = true;
@@ -50,18 +51,23 @@ void Breakout::paintEvent(QPaintEvent *e) {
 
   QPainter painter(this);
 
+
   if (gameOver) {
     reiniciarBolas();
     perdeuVida = false;
+    telaInformativa = true;
     finishGame(&painter, "Você perdeu!");
 
   } else if(gameWon) {
     reiniciarBolas();
+    telaInformativa = true;
     finishGame(&painter, "Vitória!");
   } else if(perdeuVida){
+    telaInformativa = true;
     finishGame(&painter, "Perdeu uma vida!");
     perdeuVida = false;
   }  else {
+    telaInformativa = false;
     drawObjects(&painter);
   }
 }
@@ -159,9 +165,9 @@ void Breakout::keyPressEvent(QKeyEvent *e) {
         paddle->setDx(dx);
         break;
 
-    case Qt::Key_Space:
+    case Qt::Key_R:
 
-        startGame();
+        resetGame();
         break;
 
     case Qt::Key_Q:
@@ -174,7 +180,7 @@ void Breakout::keyPressEvent(QKeyEvent *e) {
     }
 }
 
-void Breakout::startGame() {
+void Breakout::resetGame() {
 
   if (!gameStarted) {
     ball->resetState();
@@ -193,7 +199,9 @@ void Breakout::startGame() {
 
 void Breakout::pauseGame() {
 
-  if (paused) {
+  if(telaInformativa){
+        resetGame();
+  } else if (paused) {
 
     timerId = startTimer(DELAY);
     paused = false;

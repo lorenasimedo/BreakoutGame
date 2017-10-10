@@ -26,7 +26,7 @@ class Breakout : public QWidget {
     void drawObjects(QPainter *);
     void finishGame(QPainter *, QString);
     void moveObjects();
-    void startGame();
+    void resetGame();
     void pauseGame();
     void stopGame();
     void victory();
@@ -43,6 +43,7 @@ class Breakout : public QWidget {
     Paddle *paddle;
     Brick *bricks[N_OF_BRICKS];
     bool gameOver;
+    bool telaInformativa;
     bool gameWon;
     bool perdeuVida;
     bool gameStarted;
