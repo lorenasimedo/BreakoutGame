@@ -5,6 +5,7 @@
 
 #include <QWidget>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include "ball.h"
 #include "brick.h"
 #include "paddle.h"
@@ -20,6 +21,7 @@ class Breakout : public QWidget {
     void paintEvent(QPaintEvent *);
     void timerEvent(QTimerEvent *);
     void keyPressEvent(QKeyEvent *);
+    void mousePressEvent(QMouseEvent *);
     void keyReleaseEvent(QKeyEvent *);
     void drawObjects(QPainter *);
     void finishGame(QPainter *, QString);

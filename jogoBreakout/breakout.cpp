@@ -10,8 +10,8 @@ Breakout::Breakout(QWidget *parent)
   gameOver = false;
   gameWon = false;
   perdeuVida = false;
-  paused = false;
-  gameStarted = false;
+  paused = true;
+  gameStarted = true;
   ball = new Ball();
   paddle = new Paddle();
   numeroTijolos = N_OF_BRICKS;
@@ -62,10 +62,11 @@ void Breakout::paintEvent(QPaintEvent *e) {
     finishGame(&painter, "Perdeu uma vida!");
     perdeuVida = false;
   }  else {
-    //finishGame(&painter, "Você perdeu uma vida!");
     drawObjects(&painter);
   }
 }
+
+
 
 void Breakout::finishGame(QPainter *painter, QString message) {
 
@@ -125,6 +126,21 @@ void Breakout::keyReleaseEvent(QKeyEvent *e) {
     }
 }
 
+void Breakout::mousePressEvent(QMouseEvent *event){
+
+    switch (event->button()) {
+    case Qt::LeftButton:
+        pauseGame();
+        break;
+    default:
+        QWidget::mousePressEvent(event);
+
+    }
+
+}
+
+
+
 void Breakout::keyPressEvent(QKeyEvent *e) {
 
     int dx = 0;
@@ -143,17 +159,12 @@ void Breakout::keyPressEvent(QKeyEvent *e) {
         paddle->setDx(dx);
         break;
 
-    case Qt::LeftButton:
-
-        pauseGame();
-        break;
-
     case Qt::Key_Space:
 
         startGame();
         break;
 
-    case Qt::Key_Escape:
+    case Qt::Key_Q:
 
         qApp->exit();
         break;
