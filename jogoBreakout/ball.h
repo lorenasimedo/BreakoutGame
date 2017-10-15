@@ -29,6 +29,8 @@ class Ball {
     QRect rect;
     static const int INITIAL_X = 150;
     static const int INITIAL_Y = 320;
+    static const int LEFT_EDGE = 10;
+    static const int TOP_EDGE = 10;
     static const int RIGHT_EDGE = 300;
 };
 

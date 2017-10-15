@@ -27,6 +27,7 @@ class Paddle {
     static const int INITIAL_X = 120;
     static const int INITIAL_Y = 360;
     static const int RIGHT_EDGE = 220;
+    static const int LEFT_EDGE = 10;
 };
 
 #endif // PADDLE_H
