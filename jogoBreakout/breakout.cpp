@@ -2,6 +2,7 @@
 #include <QApplication>
 #include "breakout.h"
 #include <QDebug>
+#include <QString>
 
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
@@ -52,7 +53,6 @@ void Breakout::paintEvent(QPaintEvent *e) {
 
   QPainter painter(this);
 
-
   if (gameOver) {
     reiniciarBolas();
     perdeuVida = false;
@@ -89,6 +89,23 @@ void Breakout::finishGame(QPainter *painter, QString message) {
   painter->drawText(-textWidth/2, 0, message);
 }
 
+
+void Breakout::atualizarAtributos(QPainter *painter){
+    QPen pen(Qt::black, 1);
+    painter->setPen(pen);
+    QString quantidadeVidas;
+    QString quantidadeTilojos;
+    quantidadeVidas = "Bolas: " + QString::number(numeroBolas);
+    quantidadeTilojos = "Tijolos: " + QString::number(numeroTijolos);
+    QFont font("Courier", 11, QFont::DemiBold);
+    QPoint xyBola(320,150);
+    QPoint xyTijolos(320,170);
+    painter->setFont(font);
+    painter->drawText(xyBola,quantidadeVidas);
+    painter->drawText(xyTijolos,quantidadeTilojos);
+
+}
+
 void Breakout::drawObjects(QPainter *painter) {
   int yRetangulo = BOTTOM_EDGE - TOP_EDGE;
   int xRetangulo = RIGHT_EDGE - LEFT_EDGE;
@@ -98,6 +115,9 @@ void Breakout::drawObjects(QPainter *painter) {
   painter->setPen(Qt::NoPen);
   painter->drawImage(ball->getRect(), ball->getImage());
   painter->drawImage(paddle->getRect(), paddle->getImage());
+
+  atualizarAtributos( painter);
+
 
   for (int i=0; i<N_OF_BRICKS; i++) {
     if (!bricks[i]->isDestroyed()) {

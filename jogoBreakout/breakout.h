@@ -26,6 +26,7 @@ class Breakout : public QWidget {
     void drawObjects(QPainter *);
     void finishGame(QPainter *, QString);
     void moveObjects();
+    void atualizarAtributos(QPainter *);
     void restartGame();
     void resetGame();
     void pauseGame();
