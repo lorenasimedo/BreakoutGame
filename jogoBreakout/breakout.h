@@ -49,6 +49,7 @@ class Breakout : public QWidget {
     bool gameOver;
     bool telaInformativa;
     bool gameWon;
+    bool makeDelay;
     bool perdeuVida;
     bool gameStarted;
     bool showInformation;

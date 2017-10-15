@@ -13,6 +13,7 @@ Breakout::Breakout(QWidget *parent)
   gameWon = false;
   perdeuVida = false;
   showInformation=false;
+  makeDelay=false;
   paused = true;
   gameStarted = true;
   ball = new Ball();
@@ -122,10 +123,15 @@ void Breakout::drawObjects(QPainter *painter) {
 void Breakout::timerEvent(QTimerEvent *e) {
 
   Q_UNUSED(e);
-
   moveObjects();
   checkCollision();
   repaint();
+  if(makeDelay){
+      pauseGame();
+      showInformation=true;
+      makeDelay=false;
+      repaint();
+  }
 }
 
 void Breakout::moveObjects() {
@@ -159,12 +165,15 @@ void Breakout::mousePressEvent(QMouseEvent *event){
         showInformation=false;
         break;
     case Qt::RightButton:
-        pauseGame();
-        if(paused){
+        if(!paused){
+            pauseGame();
             showInformation=true;
             repaint();
         }else{
+            pauseGame();
             showInformation=false;
+            repaint();
+            makeDelay=true;
         }
         break;
     default:
