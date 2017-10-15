@@ -2,6 +2,7 @@
 #include <QApplication>
 #include "breakout.h"
 #include <QDebug>
+#include <QString>
 
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
@@ -11,6 +12,7 @@ Breakout::Breakout(QWidget *parent)
   telaInformativa = false;
   gameWon = false;
   perdeuVida = false;
+  showInformation=false;
   paused = true;
   gameStarted = true;
   ball = new Ball();
@@ -57,17 +59,21 @@ void Breakout::paintEvent(QPaintEvent *e) {
     reiniciarBolas();
     perdeuVida = false;
     telaInformativa = true;
-    finishGame(&painter, "Você perdeu!");
+    printMessage(&painter, "Você perdeu!","");
 
   } else if(gameWon) {
     reiniciarBolas();
     telaInformativa = true;
-    finishGame(&painter, "Vitória!");
+    printMessage(&painter, "Vitória!","");
   } else if(perdeuVida){
     telaInformativa = true;
-    finishGame(&painter, "Perdeu uma vida!");
+    printMessage(&painter, "Perdeu uma vida!","");
     perdeuVida = false;
-  }  else {
+  } else if(showInformation){
+      QString message="Número de Tijolos:"+QString::number(numeroTijolos);
+      QString message2="Número de Bolas:"+QString::number(numeroBolas);
+      printMessage(&painter, message,message2);
+  }else {
     telaInformativa = false;
     drawObjects(&painter);
   }
@@ -75,18 +81,25 @@ void Breakout::paintEvent(QPaintEvent *e) {
 
 
 
-void Breakout::finishGame(QPainter *painter, QString message) {
+void Breakout::printMessage(QPainter *painter, QString message, QString message2) {
 
   QFont font("Courier", 15, QFont::DemiBold);
   QFontMetrics fm(font);
   int textWidth = fm.width(message);
+  int textWidth2 = fm.width(message2);
 
   painter->setFont(font);
   int h = height();
   int w = width();
 
   painter->translate(QPoint(w/2, h/2));
-  painter->drawText(-textWidth/2, 0, message);
+
+  if(message2!=""){
+      painter->drawText(-textWidth/2, -15, message);
+      painter->drawText(-textWidth2/2, 15, message2);
+  }else{
+      painter->drawText(-textWidth/2, 0, message);
+  }
 }
 
 void Breakout::drawObjects(QPainter *painter) {
@@ -143,6 +156,16 @@ void Breakout::mousePressEvent(QMouseEvent *event){
     switch (event->button()) {
     case Qt::LeftButton:
         pauseGame();
+        showInformation=false;
+        break;
+    case Qt::RightButton:
+        pauseGame();
+        if(paused){
+            showInformation=true;
+            repaint();
+        }else{
+            showInformation=false;
+        }
         break;
     default:
         QWidget::mousePressEvent(event);

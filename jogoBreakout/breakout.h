@@ -24,7 +24,7 @@ class Breakout : public QWidget {
     void mousePressEvent(QMouseEvent *);
     void keyReleaseEvent(QKeyEvent *);
     void drawObjects(QPainter *);
-    void finishGame(QPainter *, QString);
+    void printMessage(QPainter *, QString, QString);
     void moveObjects();
     void restartGame();
     void resetGame();
@@ -51,6 +51,7 @@ class Breakout : public QWidget {
     bool gameWon;
     bool perdeuVida;
     bool gameStarted;
+    bool showInformation;
     bool paused;
     bool TimerActive;
     int numeroTijolos;
