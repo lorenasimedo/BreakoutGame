@@ -5,7 +5,7 @@
 
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
-  setFixedSize(500, 400);
+  setFixedSize(500, 420);
   x = 0;
   gameOver = false;
   telaInformativa = false;
@@ -23,7 +23,7 @@ Breakout::Breakout(QWidget *parent)
 
   for (int i=0; i<5; i++) {
     for (int j=0; j<6; j++) {
-      bricks[k] = new Brick(j*40+30, i*10+50);
+      bricks[k] = new Brick(j*40+35, i*10+50);
       k++;
     }
   }
@@ -89,7 +89,12 @@ void Breakout::finishGame(QPainter *painter, QString message) {
 }
 
 void Breakout::drawObjects(QPainter *painter) {
-
+  int yRetangulo = BOTTOM_EDGE - TOP_EDGE;
+  int xRetangulo = RIGHT_EDGE - LEFT_EDGE;
+  QPen pen(Qt::black, 2);
+  painter->setPen(pen);
+  painter->drawRect(LEFT_EDGE,TOP_EDGE,xRetangulo,yRetangulo);
+  painter->setPen(Qt::NoPen);
   painter->drawImage(ball->getRect(), ball->getImage());
   painter->drawImage(paddle->getRect(), paddle->getImage());
 

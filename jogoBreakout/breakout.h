@@ -39,6 +39,9 @@ class Breakout : public QWidget {
     static const int N_OF_BRICKS = 30;
     static const int DELAY = 10;
     static const int BOTTOM_EDGE = 400;
+    static const int LEFT_EDGE = 10;
+    static const int TOP_EDGE = 10;
+    static const int RIGHT_EDGE = 300;
     Ball *ball;
     Paddle *paddle;
     Brick *bricks[N_OF_BRICKS];

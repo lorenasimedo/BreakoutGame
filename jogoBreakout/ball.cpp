@@ -25,7 +25,7 @@ void Ball::autoMove() {
 
   rect.translate(xdir, ydir);
 
-  if (rect.left() == 0) {
+  if (rect.left() == LEFT_EDGE) {
     xdir = 1;
   }
 
@@ -33,7 +33,7 @@ void Ball::autoMove() {
     xdir = -1;
   }
 
-  if (rect.top() == 0) {
+  if (rect.top() == TOP_EDGE) {
     ydir = 1;
   }
 }
