@@ -17,6 +17,7 @@ Breakout::Breakout(QWidget *parent)
   paddle = new Paddle();
   numeroTijolos = N_OF_BRICKS;
   numeroBolas = 5;
+  TimerActive = false;
 
 
   int k = 0;
@@ -180,7 +181,7 @@ void Breakout::keyPressEvent(QKeyEvent *e) {
     }
 }
 
-void Breakout::resetGame() {
+void Breakout::restartGame() {
 
   if (!gameStarted) {
     ball->resetState();
@@ -193,28 +194,62 @@ void Breakout::resetGame() {
     gameOver = false;
     gameWon = false;
     gameStarted = true;
-    timerId = startTimer(DELAY);
+    if (!TimerActive){
+        timerId = startTimer(DELAY);
+        TimerActive=true;
+    }
   }
+}
+
+void Breakout::resetGame() {
+    ball->resetState();
+    ball->setXDir(1);
+    ball->setYDir(-1);
+    paddle->resetState();
+    for (int i=0; i<N_OF_BRICKS; i++) {
+      bricks[i]->setDestroyed(false);
+    }
+    numeroBolas = 5;
+    numeroTijolos = N_OF_BRICKS;
+    gameOver = false;
+    gameWon = false;
+    gameStarted = true;
+    telaInformativa = false;
+    perdeuVida = false;
+    if(TimerActive){
+        killTimer(timerId);
+        TimerActive=false;
+    }
+    repaint();
+    paused = true;
 }
 
 void Breakout::pauseGame() {
 
   if(telaInformativa){
-        resetGame();
+        restartGame();
   } else if (paused) {
-
-    timerId = startTimer(DELAY);
+    if (!TimerActive){
+        timerId = startTimer(DELAY);
+        TimerActive=true;
+    }
     paused = false;
   } else {
 
     paused = true;
-    killTimer(timerId);
+    if(TimerActive){
+        killTimer(timerId);
+        TimerActive=false;
+    }
   }
 }
 
 void Breakout::stopGame() {
 
-  killTimer(timerId);
+  if(TimerActive){
+      killTimer(timerId);
+      TimerActive=false;
+  }
   if(numeroBolas==0){
     gameOver = true;
     gameStarted = false;
@@ -227,7 +262,10 @@ void Breakout::stopGame() {
 
 void Breakout::victory() {
 
-  killTimer(timerId);
+  if(TimerActive){
+      killTimer(timerId);
+      TimerActive=false;
+  }
   gameWon = true;
   gameStarted = false;
 }
