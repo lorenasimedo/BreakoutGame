@@ -7,7 +7,7 @@ Paddle::Paddle() {
   image.load("../jogoBreakout/paddle.png");
 
   int inputWidth = 80;
-  int inputHeight = 17;
+  int inputHeight = 15;
   image = image.scaled(inputWidth, inputHeight,Qt::IgnoreAspectRatio);
 
   rect = image.rect();

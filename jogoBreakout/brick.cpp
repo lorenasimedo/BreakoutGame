@@ -4,7 +4,7 @@
 Brick::Brick(int x, int y) {
   image.load("../jogoBreakout/brickie.png");
 
-  int inputWidth = 40;
+  int inputWidth = 35;
   int inputHeight = 8;
   image = image.scaled(inputWidth, inputHeight,Qt::IgnoreAspectRatio);
 

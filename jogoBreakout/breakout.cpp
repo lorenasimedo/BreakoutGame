@@ -3,6 +3,8 @@
 #include "breakout.h"
 #include <QDebug>
 #include <QString>
+#include <QFont>
+#include <iostream>
 
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
@@ -105,17 +107,22 @@ void Breakout::printMessage(QPainter *painter, QString message, QString message2
 
 void Breakout::atualizarAtributos(QPainter *painter){
     QPen pen(Qt::black, 1);
+    QPen pen2(Qt::black, 2);
     painter->setPen(pen);
     QString quantidadeVidas;
     QString quantidadeTilojos;
     quantidadeVidas = "Bolas: " + QString::number(numeroBolas);
     quantidadeTilojos = "Tijolos: " + QString::number(numeroTijolos);
-    QFont font("Courier", 11, QFont::DemiBold);
-    QPoint xyBola(320,150);
-    QPoint xyTijolos(320,170);
+    QFont font("Times", 11, QFont::Bold);
+    QPoint xyBola(340,150);
+    QPoint xyTijolos(340,170);
     painter->setFont(font);
     painter->drawText(xyBola,quantidadeVidas);
     painter->drawText(xyTijolos,quantidadeTilojos);
+    painter->setPen(pen2);
+    int xAtributos = xyBola.x() - 10;
+    int yAtributos = 130;
+    painter->drawRect(xAtributos,yAtributos,90,50);
 
 }
 
