@@ -1,10 +1,8 @@
 #include <QPainter>
 #include <QApplication>
 #include "breakout.h"
-#include <QDebug>
 #include <QString>
 #include <QFont>
-#include <iostream>
 
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
@@ -421,8 +419,6 @@ void Breakout::checkCollision() {
         }
         numeroTijolos--;
         bricks[i]->setDestroyed(true);
-        qDebug()<<"Numero de Tijolos:"<<numeroTijolos;
-        qDebug()<<"Numero de Bolas:"<<numeroBolas;
       }
     }
   }
