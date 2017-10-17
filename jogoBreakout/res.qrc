@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>background.mp3</file>
+        <file>PopTijolo.mp3</file>
+        <file>PopBarra.mp3</file>
+    </qresource>
+</RCC>

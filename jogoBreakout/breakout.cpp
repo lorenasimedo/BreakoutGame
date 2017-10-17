@@ -4,6 +4,7 @@
 #include <QString>
 #include <QFont>
 
+
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
   setFixedSize(500, 420);
@@ -21,7 +22,14 @@ Breakout::Breakout(QWidget *parent)
   numeroTijolos = N_OF_BRICKS;
   numeroBolas = 5;
   TimerActive = false;
-
+  musicaBackground = new QMediaPlayer();
+  musicaBackground->setMedia(QUrl("qrc:/sounds/background.mp3"));
+  musicaBackground->setVolume(60);
+  musicaBackground->play();
+  musicaTijolo = new QMediaPlayer();
+  musicaTijolo->setMedia(QUrl("qrc:/sounds/PopTijolo.mp3"));
+  musicaBarra = new QMediaPlayer();
+  musicaBarra->setMedia(QUrl("qrc:/sounds/PopBarra.mp3"));
 
   int k = 0;
 
@@ -47,6 +55,36 @@ void Breakout::reiniciarBolas(){
     numeroBolas = 5;
 }
 
+void Breakout::continuarMusica(){
+    if(musicaBackground->state() == QMediaPlayer::StoppedState ){
+        musicaBackground->play();
+    }
+
+}
+
+void Breakout::musicaTijoloDestruido(){
+    if(musicaTijolo->state() == QMediaPlayer::PlayingState){
+        musicaTijolo->stop();
+    }
+
+    if(musicaTijolo->state() == QMediaPlayer::StoppedState){
+        musicaTijolo->play();
+    }
+
+
+}
+
+void Breakout::musicaBateuBarra(){
+    if(musicaBarra->state() == QMediaPlayer::PlayingState){
+        musicaBarra->stop();
+    }
+
+    if(musicaBarra->state() == QMediaPlayer::StoppedState){
+        musicaBarra->play();
+    }
+
+
+}
 
 
 void Breakout::paintEvent(QPaintEvent *e) {
@@ -148,6 +186,7 @@ void Breakout::timerEvent(QTimerEvent *e) {
 
   Q_UNUSED(e);
   moveObjects();
+  continuarMusica();
   checkCollision();
   repaint();
   if(makeDelay){
@@ -354,7 +393,7 @@ void Breakout::checkCollision() {
 
     int paddleLPos = paddle->getRect().left();
     int ballLPos = ball->getRect().left();
-
+    musicaBateuBarra();
     int first = paddleLPos + 8;
     int second = paddleLPos + 16;
     int third = paddleLPos + 24;
@@ -402,6 +441,7 @@ void Breakout::checkCollision() {
       QPoint pointBottom(ballLeft, ballTop + ballHeight + 1);
 
       if (!bricks[i]->isDestroyed()) {
+          musicaTijoloDestruido();
         if(bricks[i]->getRect().contains(pointRight)) {
            ball->setXDir(-1);
         }

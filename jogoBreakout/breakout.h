@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QMediaPlayer>
 #include "ball.h"
 #include "brick.h"
 #include "paddle.h"
@@ -34,6 +35,9 @@ class Breakout : public QWidget {
     void victory();
     void checkCollision();
     void reiniciarBolas();
+    void continuarMusica();
+    void musicaTijoloDestruido();
+    void musicaBateuBarra();
 
   private:
     int x;
@@ -44,6 +48,9 @@ class Breakout : public QWidget {
     static const int LEFT_EDGE = 10;
     static const int TOP_EDGE = 10;
     static const int RIGHT_EDGE = 300;
+    QMediaPlayer *musicaBackground;
+    QMediaPlayer *musicaTijolo;
+    QMediaPlayer *musicaBarra;
     Ball *ball;
     Paddle *paddle;
     Brick *bricks[N_OF_BRICKS];
