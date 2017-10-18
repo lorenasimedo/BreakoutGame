@@ -15,6 +15,9 @@ class Brick {
   public:
     bool isDestroyed();
     void setDestroyed(bool);
+    void setVidas(int);
+    void diminuirVidas();
+    int numeroVidas();
     QRect getRect();
     void setRect(QRect);
     QImage & getImage();
@@ -22,6 +25,7 @@ class Brick {
   private:
     QImage image;
     QRect rect;
+    int vida;
     bool destroyed;
 };
 

@@ -12,6 +12,7 @@
 #include "paddle.h"
 
 
+
 class Breakout : public QWidget {
 
   public:
@@ -34,6 +35,7 @@ class Breakout : public QWidget {
     void stopGame();
     void victory();
     void checkCollision();
+    void ligarMusica();
     void reiniciarBolas();
     void continuarMusica();
     void musicaTijoloDestruido();

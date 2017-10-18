@@ -22,22 +22,17 @@ Breakout::Breakout(QWidget *parent)
   numeroTijolos = N_OF_BRICKS;
   numeroBolas = 5;
   TimerActive = false;
-  musicaBackground = new QMediaPlayer();
-  musicaBackground->setMedia(QUrl("qrc:/sounds/background.mp3"));
-  musicaBackground->setVolume(60);
-  musicaBackground->play();
-  musicaTijolo = new QMediaPlayer();
-  musicaTijolo->setMedia(QUrl("qrc:/sounds/PopTijolo.mp3"));
-  musicaBarra = new QMediaPlayer();
-  musicaBarra->setMedia(QUrl("qrc:/sounds/PopBarra.mp3"));
+  ligarMusica();
 
   int k = 0;
 
   for (int i=0; i<5; i++) {
-    for (int j=0; j<6; j++) {
-      bricks[k] = new Brick(j*40+35, i*10+50);
-      k++;
-    }
+
+        for (int j=0; j<6; j++) {
+          bricks[k] = new Brick(j*40+35, i*10+50);
+          k++;
+        }
+
   }
 }
 
@@ -53,6 +48,19 @@ Breakout::~Breakout() {
 
 void Breakout::reiniciarBolas(){
     numeroBolas = 5;
+}
+
+void Breakout::ligarMusica(){
+    musicaBackground = new QMediaPlayer();
+    musicaBackground->setMedia(QUrl("qrc:/sounds/background.mp3"));
+    musicaBackground->setVolume(40);
+    musicaBackground->play();
+    musicaTijolo = new QMediaPlayer();
+    musicaTijolo->setMedia(QUrl("qrc:/sounds/PopTijolo.mp3"));
+    musicaTijolo->setVolume(80);
+    musicaBarra = new QMediaPlayer();
+    musicaBarra->setMedia(QUrl("qrc:/sounds/PopBarra.mp3"));
+    musicaBarra->setVolume(80);
 }
 
 void Breakout::continuarMusica(){
@@ -289,6 +297,7 @@ void Breakout::restartGame() {
 
     for (int i=0; i<N_OF_BRICKS; i++) {
       bricks[i]->setDestroyed(false);
+      bricks[i]->setVidas(2);
     }
     numeroTijolos = N_OF_BRICKS;
     gameOver = false;
@@ -308,6 +317,7 @@ void Breakout::resetGame() {
     paddle->resetState();
     for (int i=0; i<N_OF_BRICKS; i++) {
       bricks[i]->setDestroyed(false);
+      bricks[i]->setVidas(2);
     }
     numeroBolas = 5;
     numeroTijolos = N_OF_BRICKS;
@@ -442,6 +452,7 @@ void Breakout::checkCollision() {
 
       if (!bricks[i]->isDestroyed()) {
           musicaTijoloDestruido();
+          bricks[i]->diminuirVidas();
         if(bricks[i]->getRect().contains(pointRight)) {
            ball->setXDir(-1);
         }
@@ -457,8 +468,11 @@ void Breakout::checkCollision() {
         else if(bricks[i]->getRect().contains(pointBottom)) {
            ball->setYDir(-1);
         }
-        numeroTijolos--;
-        bricks[i]->setDestroyed(true);
+        if(bricks[i]->numeroVidas() == 0){
+            numeroTijolos--;
+            bricks[i]->setDestroyed(true);
+        }
+
       }
     }
   }
