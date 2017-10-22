@@ -10,6 +10,7 @@
 #include "ball.h"
 #include "brick.h"
 #include "paddle.h"
+#include "level.h"
 
 
 
@@ -45,7 +46,7 @@ class Breakout : public QWidget {
     int x;
     int timerId;
     static const int N_OF_BRICKS = 30;
-    static const int DELAY = 10;
+    int DELAY;
     static const int BOTTOM_EDGE = 400;
     static const int LEFT_EDGE = 10;
     static const int TOP_EDGE = 10;
@@ -55,6 +56,7 @@ class Breakout : public QWidget {
     QMediaPlayer *musicaBarra;
     Ball *ball;
     Paddle *paddle;
+    Level *level;
     Brick *bricks[N_OF_BRICKS];
     bool gameOver;
     bool telaInformativa;

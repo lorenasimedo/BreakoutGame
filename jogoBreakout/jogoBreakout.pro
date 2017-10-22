@@ -29,13 +29,15 @@ SOURCES += \
         breakout.cpp \
     paddle.cpp \
     brick.cpp \
-    ball.cpp
+    ball.cpp \
+    level.cpp
 
 HEADERS += \
         breakout.h \
     paddle.h \
     brick.h \
-    ball.h
+    ball.h \
+    level.h
 
 FORMS += \
         breakout.ui

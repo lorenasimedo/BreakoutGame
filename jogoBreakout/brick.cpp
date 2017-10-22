@@ -14,7 +14,6 @@ Brick::Brick(int x, int y) {
 
 Brick::~Brick() {
 
-  std::cout << ("Brick deleted") << std::endl;
 }
 
 QRect Brick::getRect() {

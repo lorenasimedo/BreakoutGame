@@ -19,6 +19,7 @@ Breakout::Breakout(QWidget *parent)
   gameStarted = true;
   ball = new Ball();
   paddle = new Paddle();
+  level = new Level();
   numeroTijolos = N_OF_BRICKS;
   numeroBolas = 5;
   TimerActive = false;
