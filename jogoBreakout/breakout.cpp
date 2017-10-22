@@ -24,7 +24,7 @@ Breakout::Breakout(QWidget *parent)
   numeroBolas = 5;
   TimerActive = false;
   ligarMusica();
-
+  DELAY = level->retornaDELAY();
   int k = 0;
 
   for (int i=0; i<5; i++) {
@@ -95,6 +95,10 @@ void Breakout::musicaBateuBarra(){
 
 }
 
+void Breakout::atualizarLevel(){
+    DELAY = level->retornaDELAY();
+}
+
 
 void Breakout::paintEvent(QPaintEvent *e) {
 
@@ -104,14 +108,17 @@ void Breakout::paintEvent(QPaintEvent *e) {
 
   if (gameOver) {
     reiniciarBolas();
+    level->reiniciarLevel();
+    atualizarLevel();
     perdeuVida = false;
     telaInformativa = true;
     printMessage(&painter, "Você perdeu!","");
 
   } else if(gameWon) {
-    reiniciarBolas();
+    level->passouLevel();
+    atualizarLevel();
     telaInformativa = true;
-    printMessage(&painter, "Vitória!","");
+    printMessage(&painter, "Passou de Level!","Velocidade aumentada!");
   } else if(perdeuVida){
     telaInformativa = true;
     printMessage(&painter, "Perdeu uma vida!","");
@@ -154,14 +161,19 @@ void Breakout::atualizarAtributos(QPainter *painter){
     QPen pen(Qt::black, 1);
     QPen pen2(Qt::black, 2);
     painter->setPen(pen);
+    int nivelAtual = level->levelAtual();
     QString quantidadeVidas;
     QString quantidadeTilojos;
+    QString quantidadeLevel;
+    quantidadeLevel = "Level: " + QString::number(nivelAtual);
     quantidadeVidas = "Bolas: " + QString::number(numeroBolas);
     quantidadeTilojos = "Tijolos: " + QString::number(numeroTijolos);
     QFont font("Times", 11, QFont::Bold);
+    QPoint xyLevel(340,110);
     QPoint xyBola(340,150);
     QPoint xyTijolos(340,170);
     painter->setFont(font);
+    painter->drawText(xyLevel,quantidadeLevel);
     painter->drawText(xyBola,quantidadeVidas);
     painter->drawText(xyTijolos,quantidadeTilojos);
     painter->setPen(pen2);
@@ -313,6 +325,8 @@ void Breakout::restartGame() {
 
 void Breakout::resetGame() {
     ball->resetState();
+    level->reiniciarLevel();
+    atualizarLevel();
     ball->setXDir(1);
     ball->setYDir(-1);
     paddle->resetState();

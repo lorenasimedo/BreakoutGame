@@ -7,7 +7,7 @@ class Level
 public:
     Level();
     ~Level();
-protected:
+public:
     int levelAtual();
     void passouLevel();
     void reiniciarLevel();
