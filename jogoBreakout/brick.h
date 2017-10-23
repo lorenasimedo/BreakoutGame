@@ -5,11 +5,12 @@
 
 #include <QImage>
 #include <QRect>
+//#include <cstdlib>
 
 class Brick {
 
   public:
-    Brick(int, int);
+    Brick(int, int, bool);
     ~Brick();
 
   public:
@@ -18,16 +19,21 @@ class Brick {
     void setVidas(int);
     void diminuirVidas();
     int numeroVidas();
+    bool verificarEspecial();
     QRect getRect();
     void setRect(QRect);
     QImage & getImage();
+    void receberID(int);
+    void desativarBomba(bool);
+    void inicializarBomba(bool);
 
   private:
     QImage image;
     QRect rect;
     int vida;
+    int identificador;
+    bool blocoEspecial;
     bool destroyed;
 };
-
 
 #endif // BRICK_H

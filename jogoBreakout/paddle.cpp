@@ -2,7 +2,6 @@
 #include "paddle.h"
 
 Paddle::Paddle() {
-
   dx = 0;
   image.load("../jogoBreakout/paddle.png");
 

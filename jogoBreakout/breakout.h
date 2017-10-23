@@ -42,6 +42,7 @@ class Breakout : public QWidget {
     void musicaTijoloDestruido();
     void musicaBateuBarra();
     void atualizarLevel();
+    void explodirBomba(int);
 
   private:
     int x;

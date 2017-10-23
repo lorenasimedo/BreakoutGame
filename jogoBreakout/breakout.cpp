@@ -3,6 +3,7 @@
 #include "breakout.h"
 #include <QString>
 #include <QFont>
+#include <QDebug>
 
 
 Breakout::Breakout(QWidget *parent)
@@ -26,11 +27,11 @@ Breakout::Breakout(QWidget *parent)
   ligarMusica();
   DELAY = level->retornaDELAY();
   int k = 0;
-
   for (int i=0; i<5; i++) {
 
         for (int j=0; j<6; j++) {
-          bricks[k] = new Brick(j*40+35, i*10+50);
+          bricks[k] = new Brick(j*40+35, i*10+50, true);
+          bricks[k]->receberID(k);
           k++;
         }
 
@@ -51,11 +52,56 @@ void Breakout::reiniciarBolas(){
     numeroBolas = 5;
 }
 
+void Breakout::explodirBomba(int Ident){
+    bricks[Ident]->desativarBomba(true);
+    bool limiteDireito = false;
+    int esquerdo;
+    int direito;
+    bool limiteEsquerdo = false;
+    int resto1 = (Ident%6);
+    int resto2 = (Ident+1)%6;
+    if(resto1==0){
+        limiteEsquerdo = true;
+    }
+    if(resto2==0){
+        limiteDireito = true;
+    }
+
+    for(int i=Ident-7;i<Ident+8;i++){
+        if(i>=0 && i!=Ident && i<N_OF_BRICKS){
+            if(limiteEsquerdo){
+                esquerdo = (i+1)%6;
+                if(esquerdo!=0){
+                    bricks[i]->diminuirVidas();
+                    bricks[i]->desativarBomba(true);
+                }
+            }else if(limiteDireito){
+                direito = (i)%6;
+                if(direito!=0){
+                    bricks[i]->diminuirVidas();
+                    bricks[i]->desativarBomba(true);
+                }
+            }else{
+                bricks[i]->diminuirVidas();
+                bricks[i]->desativarBomba(true);
+            }
+        qDebug()<<"Vidas de "<<i<<" é igual a "<<bricks[i]->numeroVidas();
+        }
+
+        if(i==(Ident-5)){
+            i=i+3;
+        }else if (i==(Ident+1)){
+            i = i+3;
+        }
+
+    }
+}
+
 void Breakout::ligarMusica(){
     musicaBackground = new QMediaPlayer();
-    musicaBackground->setMedia(QUrl("qrc:/sounds/background.mp3"));
-    musicaBackground->setVolume(40);
-    musicaBackground->play();
+    //musicaBackground->setMedia(QUrl("qrc:/sounds/background.mp3"));
+    //musicaBackground->setVolume(40);
+    //musicaBackground->play();
     musicaTijolo = new QMediaPlayer();
     musicaTijolo->setMedia(QUrl("qrc:/sounds/PopTijolo.mp3"));
     musicaTijolo->setVolume(80);
@@ -65,9 +111,9 @@ void Breakout::ligarMusica(){
 }
 
 void Breakout::continuarMusica(){
-    if(musicaBackground->state() == QMediaPlayer::StoppedState ){
-        musicaBackground->play();
-    }
+    //if(musicaBackground->state() == QMediaPlayer::StoppedState ){
+    //    musicaBackground->play();
+    //}
 
 }
 
@@ -468,6 +514,9 @@ void Breakout::checkCollision() {
       if (!bricks[i]->isDestroyed()) {
           musicaTijoloDestruido();
           bricks[i]->diminuirVidas();
+          if(bricks[i]->verificarEspecial()){
+              explodirBomba(i);
+          }
         if(bricks[i]->getRect().contains(pointRight)) {
            ball->setXDir(-1);
         }
