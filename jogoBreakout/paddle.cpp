@@ -32,6 +32,15 @@ void Paddle::move() {
     }
 }
 
+int Paddle::eixoX() {
+  posicaoX = rect.x();
+  return posicaoX;
+}
+int Paddle::eixoY() {
+  posicaoY = rect.y();
+  return posicaoY;
+}
+
 void Paddle::resetState() {
 
   rect.moveTo(INITIAL_X, INITIAL_Y);

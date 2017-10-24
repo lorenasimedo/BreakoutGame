@@ -7,15 +7,18 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QMediaPlayer>
+#include <QPushButton>
+#include <QObject>
 #include "ball.h"
 #include "brick.h"
 #include "paddle.h"
 #include "level.h"
+#include "menu.h"
 
 
 
 class Breakout : public QWidget {
-
+Q_OBJECT
   public:
     Breakout(QWidget *parent = 0);
     ~Breakout();
@@ -27,7 +30,7 @@ class Breakout : public QWidget {
     void mousePressEvent(QMouseEvent *);
     void keyReleaseEvent(QKeyEvent *);
     void drawObjects(QPainter *);
-    void printMessage(QPainter *, QString, QString);
+    void printMessage(QPainter *, QString, QString, QString, QString);
     void moveObjects();
     void atualizarAtributos(QPainter *);
     void restartGame();
@@ -43,7 +46,8 @@ class Breakout : public QWidget {
     void musicaBateuBarra();
     void atualizarLevel();
     void explodirBomba(int);
-
+  public slots:
+    void alguemClicou();
   private:
     int x;
     int timerId;
@@ -56,6 +60,7 @@ class Breakout : public QWidget {
     QMediaPlayer *musicaBackground;
     QMediaPlayer *musicaTijolo;
     QMediaPlayer *musicaBarra;
+    menu *menucriado;
     Ball *ball;
     Paddle *paddle;
     Level *level;

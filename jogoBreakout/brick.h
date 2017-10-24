@@ -25,6 +25,7 @@ class Brick {
     QImage & getImage();
     void receberID(int);
     void desativarBomba(bool);
+    void ativarBomba(bool);
     void inicializarBomba(bool);
 
   private:

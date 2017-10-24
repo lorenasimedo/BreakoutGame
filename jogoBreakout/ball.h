@@ -19,12 +19,16 @@ class Ball {
     void setYDir(int);
     int getXDir();
     int getYDir();
+    int eixoX();
+    int eixoY();
     QRect getRect();
     QImage & getImage();
 
   private:
     int xdir;
     int ydir;
+    int posicaoX;
+    int posicaoY;
     QImage image;
     QRect rect;
     static const int INITIAL_X = 150;

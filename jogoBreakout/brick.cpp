@@ -40,6 +40,13 @@ void Brick::desativarBomba(bool desativar){
     }
 }
 
+void Brick::ativarBomba(bool ativar){
+    if (ativar){
+        blocoEspecial = true;
+    }
+}
+
+
 
 
 QRect Brick::getRect() {

@@ -39,8 +39,17 @@ void Ball::autoMove() {
 }
 
 void Ball::resetState() {
-
   rect.moveTo(INITIAL_X, INITIAL_Y);
+}
+
+int Ball::eixoX() {
+  posicaoX = rect.x();
+  return posicaoX;
+}
+
+int Ball::eixoY() {
+  posicaoY = rect.y();
+  return posicaoY;
 }
 
 void Ball::setXDir(int x) {

@@ -30,14 +30,16 @@ SOURCES += \
     paddle.cpp \
     brick.cpp \
     ball.cpp \
-    level.cpp
+    level.cpp \
+    menu.cpp
 
 HEADERS += \
         breakout.h \
     paddle.h \
     brick.h \
     ball.h \
-    level.h
+    level.h \
+    menu.h
 
 FORMS += \
         breakout.ui

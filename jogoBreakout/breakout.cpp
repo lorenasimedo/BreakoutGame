@@ -3,8 +3,8 @@
 #include "breakout.h"
 #include <QString>
 #include <QFont>
+#include <QHBoxLayout>
 #include <QDebug>
-
 
 Breakout::Breakout(QWidget *parent)
     : QWidget(parent) {
@@ -21,6 +21,8 @@ Breakout::Breakout(QWidget *parent)
   ball = new Ball();
   paddle = new Paddle();
   level = new Level();
+  menucriado= new menu(this);
+  //menucriado = new menu(this);
   numeroTijolos = N_OF_BRICKS;
   numeroBolas = 5;
   TimerActive = false;
@@ -36,6 +38,10 @@ Breakout::Breakout(QWidget *parent)
         }
 
   }
+
+
+  connect( menucriado, SIGNAL(clicked(bool)) , this , SLOT(alguemClicou()) );
+
 }
 
 Breakout::~Breakout() {
@@ -47,6 +53,41 @@ Breakout::~Breakout() {
    delete bricks[i];
  }
 }
+
+void Breakout::alguemClicou(){
+    if(!paused){
+        pauseGame();
+        showInformation=true;
+        repaint();
+    }else{
+        pauseGame();
+        showInformation=false;
+        repaint();
+        makeDelay=true;
+    }
+}
+/*
+void Breakout::inicializarMenu(QWidget *pai){
+    QPushButton *menu = new QPushButton(pai);
+    menu->setGeometry(330,340,100,40);
+    menu->setFocusPolicy(Qt::NoFocus);
+    menu->setText("Menu");
+}
+*/
+/*void Breakout::menu::mousePressEvent(QMouseEvent *event){
+    switch (event->button()) {
+    case Qt::LeftButton:
+        pauseGame();
+        showInformation=false;
+        break;
+
+    default:
+        QWidget::mousePressEvent(event);
+
+    }
+
+}*/
+
 
 void Breakout::reiniciarBolas(){
     numeroBolas = 5;
@@ -85,11 +126,10 @@ void Breakout::explodirBomba(int Ident){
                 bricks[i]->diminuirVidas();
                 bricks[i]->desativarBomba(true);
             }
-        qDebug()<<"Vidas de "<<i<<" é igual a "<<bricks[i]->numeroVidas();
         }
 
         if(i==(Ident-5)){
-            i=i+3;
+            i= i+3;
         }else if (i==(Ident+1)){
             i = i+3;
         }
@@ -97,11 +137,12 @@ void Breakout::explodirBomba(int Ident){
     }
 }
 
+
 void Breakout::ligarMusica(){
     musicaBackground = new QMediaPlayer();
-    //musicaBackground->setMedia(QUrl("qrc:/sounds/background.mp3"));
-    //musicaBackground->setVolume(40);
-    //musicaBackground->play();
+    musicaBackground->setMedia(QUrl("qrc:/sounds/background.mp3"));
+    musicaBackground->setVolume(40);
+    musicaBackground->play();
     musicaTijolo = new QMediaPlayer();
     musicaTijolo->setMedia(QUrl("qrc:/sounds/PopTijolo.mp3"));
     musicaTijolo->setVolume(80);
@@ -111,9 +152,9 @@ void Breakout::ligarMusica(){
 }
 
 void Breakout::continuarMusica(){
-    //if(musicaBackground->state() == QMediaPlayer::StoppedState ){
-    //    musicaBackground->play();
-    //}
+    if(musicaBackground->state() == QMediaPlayer::StoppedState ){
+        musicaBackground->play();
+    }
 
 }
 
@@ -158,21 +199,25 @@ void Breakout::paintEvent(QPaintEvent *e) {
     atualizarLevel();
     perdeuVida = false;
     telaInformativa = true;
-    printMessage(&painter, "Você perdeu!","");
+    printMessage(&painter, "Você perdeu!","","","");
 
   } else if(gameWon) {
     level->passouLevel();
     atualizarLevel();
     telaInformativa = true;
-    printMessage(&painter, "Passou de Level!","Velocidade aumentada!");
+    printMessage(&painter, "Passou de Level!","Velocidade aumentada!","","");
   } else if(perdeuVida){
     telaInformativa = true;
-    printMessage(&painter, "Perdeu uma vida!","");
+    printMessage(&painter, "Perdeu uma vida!","","","");
     perdeuVida = false;
   } else if(showInformation){
       QString message="Número de Tijolos:"+QString::number(numeroTijolos);
       QString message2="Número de Bolas:"+QString::number(numeroBolas);
-      printMessage(&painter, message,message2);
+      QString message3="Bola: X="+QString::number(ball->eixoX()) +
+              " e Y="+QString::number(ball->eixoY());
+      QString message4="Barra: X="+QString::number(paddle->eixoX()) +
+              " e Y="+QString::number(paddle->eixoY());
+      printMessage(&painter, message,message2,message3,message4);
   }else {
     telaInformativa = false;
     drawObjects(&painter);
@@ -181,7 +226,8 @@ void Breakout::paintEvent(QPaintEvent *e) {
 
 
 
-void Breakout::printMessage(QPainter *painter, QString message, QString message2) {
+void Breakout::printMessage(QPainter *painter, QString message, QString message2,
+                            QString message3, QString message4) {
 
   QFont font("Courier", 15, QFont::DemiBold);
   QFontMetrics fm(font);
@@ -194,11 +240,16 @@ void Breakout::printMessage(QPainter *painter, QString message, QString message2
 
   painter->translate(QPoint(w/2, h/2));
 
-  if(message2!=""){
+  if(message2!="" && message3==""){
       painter->drawText(-textWidth/2, -15, message);
       painter->drawText(-textWidth2/2, 15, message2);
-  }else{
+  }else if(message2==""){
       painter->drawText(-textWidth/2, 0, message);
+  }else{
+      painter->drawText(-textWidth/2, -60, message);
+      painter->drawText(-textWidth/2, -30, message2);
+      painter->drawText(-textWidth/2, 30, message3);
+      painter->drawText(-textWidth/2, 60, message4);
   }
 }
 
@@ -288,7 +339,6 @@ void Breakout::keyReleaseEvent(QKeyEvent *e) {
 }
 
 void Breakout::mousePressEvent(QMouseEvent *event){
-
     switch (event->button()) {
     case Qt::LeftButton:
         pauseGame();
@@ -357,6 +407,12 @@ void Breakout::restartGame() {
     for (int i=0; i<N_OF_BRICKS; i++) {
       bricks[i]->setDestroyed(false);
       bricks[i]->setVidas(2);
+      if(level->levelAtual()==1){
+          bricks[i]->ativarBomba(true);
+      }else{
+          bricks[i]->desativarBomba(true);
+      }
+      bricks[i]->inicializarBomba(bricks[i]->verificarEspecial());
     }
     numeroTijolos = N_OF_BRICKS;
     gameOver = false;
