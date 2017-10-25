@@ -33,11 +33,11 @@ void Paddle::move() {
 }
 
 int Paddle::eixoX() {
-  posicaoX = rect.x();
+  posicaoX = rect.x() - 10;
   return posicaoX;
 }
 int Paddle::eixoY() {
-  posicaoY = rect.y();
+  posicaoY = rect.y() - 10;
   return posicaoY;
 }
 

@@ -43,12 +43,12 @@ void Ball::resetState() {
 }
 
 int Ball::eixoX() {
-  posicaoX = rect.x();
+  posicaoX = rect.x() - 10;
   return posicaoX;
 }
 
 int Ball::eixoY() {
-  posicaoY = rect.y();
+  posicaoY = rect.y() - 10;
   return posicaoY;
 }
 
