@@ -435,6 +435,12 @@ void Breakout::resetGame() {
     for (int i=0; i<N_OF_BRICKS; i++) {
       bricks[i]->setDestroyed(false);
       bricks[i]->setVidas(2);
+      if(level->levelAtual()==1){
+          bricks[i]->ativarBomba(true);
+      }else{
+          bricks[i]->desativarBomba(true);
+      }
+      bricks[i]->inicializarBomba(bricks[i]->verificarEspecial());
     }
     numeroBolas = 5;
     numeroTijolos = N_OF_BRICKS;
